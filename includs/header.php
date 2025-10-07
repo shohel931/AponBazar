@@ -1,12 +1,11 @@
 <?php 
 include 'db.php';
-session_start();
 
-// Redirect to login if not logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+// // Redirect to login if not logged in
+// if (!isset($_SESSION['user_id'])) {
+//     header("Location: login.php");
+//     exit;
+// }
 
 
 
@@ -36,8 +35,8 @@ if (!isset($_SESSION['user_id'])) {
                         <li><a href="account.php"><?= htmlspecialchars($_SESSION['user_name']); ?></a></li>
                         <li><a href="logout.php">Logout</a></li>
                         <?php else: ?>
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Register</a></li>
+                        <li><a href="login.php">Login</a></li>
+                        <li><a href="register.php">Register</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
