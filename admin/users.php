@@ -34,7 +34,7 @@ table {
 }
 table thead {
     background: #007bff;
-    color: white;
+    color: rgb(68, 68, 68);
 }
 table th, table td {
     padding: 10px;

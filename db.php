@@ -73,4 +73,39 @@ $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
 )";
 $conn->query($createOrdersTable);
 
+
+
+
+
+
+
+// ---------- DEMO ORDERS INSERT ----------
+
+// Check if any orders exist
+$checkOrders = $conn->query("SELECT COUNT(*) AS total FROM orders");
+$orderCount = $checkOrders->fetch_assoc()['total'];
+
+if ($orderCount == 0) {
+    // Get any existing user (for demo)
+    $user = $conn->query("SELECT id FROM users LIMIT 1")->fetch_assoc();
+    if (!$user) {
+        // If no user exists, create one
+        $conn->query("INSERT INTO users (name, email, number, password) 
+                      VALUES ('Demo User', 'demo@example.com', '01700000000', '" . password_hash('123456', PASSWORD_BCRYPT) . "')");
+        $user_id = $conn->insert_id;
+    } else {
+        $user_id = $user['id'];
+    }
+
+    // Insert demo orders
+    $conn->query("INSERT INTO orders (user_id, total_amount, payment_method, payment_status, order_status, shipping_address) VALUES
+        ($user_id, 1200.00, 'bKash', 'Paid', 'Delivered', 'Dhaka, Bangladesh'),
+        ($user_id, 850.50, 'Cash on Delivery', 'Pending', 'Processing', 'Chittagong, Bangladesh'),
+        ($user_id, 2300.75, 'Nagad', 'Failed', 'Cancelled', 'Khulna, Bangladesh')
+    ");
+}
+
+
+
+
 ?>

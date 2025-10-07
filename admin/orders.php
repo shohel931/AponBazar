@@ -82,7 +82,7 @@ $orders = $conn->query($sql);
                         <td><span class="status <?= strtolower($order['payment_status']) ?>"><?= $order['payment_status'] ?></span></td>
                         <td><span class="status <?= strtolower($order['order_status']) ?>"><?= $order['order_status'] ?></span></td>
                         <td><?= htmlspecialchars($order['shipping_address']) ?></td>
-                        <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
+                        <td><?= date('d M Y H m', strtotime($order['created_at'])) ?></td>
                         <td>
                             <form method="POST">
                                 <input type="hidden" name="order_id" value="<?= $order['id'] ?>">

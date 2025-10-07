@@ -229,7 +229,7 @@ table {
 }
 table thead {
     background: #007bff;
-    color: white;
+    color: rgb(68, 68, 68);
 }
 th, td {
     padding: 10px;
@@ -256,10 +256,17 @@ tr:hover {
 }
 .status.cancelled {
     background: #dc3545; 
+    
 }
 .status.pending { 
     background: #ffc107; 
-    color: #000; 
+    color: #333;
+}
+.status.paid { 
+    background: #28a745; 
+}
+.status.failed { 
+    background: #dc3545; 
 }
 form select, form button {
     padding: 5px;
