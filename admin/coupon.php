@@ -33,7 +33,7 @@ $coupons = $conn->query("SELECT * FROM coupons ORDER BY id DESC");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Coupons</title>
-<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="../css/dashboard.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <style>
 body {font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:0;}
@@ -55,7 +55,31 @@ table th {background:#007bff; color:#fff;}
 </head>
 <body>
 
-<div class="container">
+
+
+
+</body>
+</html>
+<div class="admin-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="../img/dasb.png" alt="">
+        <ul>
+            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="products.php">Products</a></li>
+            <li><a href="categories.php">Categories</a></li>
+            <li><a href="orders.php">Orders</a></li>
+            <li><a href="users.php">Users</a></li>
+            <li><a href="coupon.php" class="active">Coupon Code</a></li>
+            <li><a href="settings.php">Settings</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+   
+    <div class="container">
 <h2>Coupon Code Management</h2>
 
 <!-- Add Coupon Form -->
@@ -99,6 +123,4 @@ table th {background:#007bff; color:#fff;}
 </table>
 </div>
 
-
-</body>
-</html>
+</div>
