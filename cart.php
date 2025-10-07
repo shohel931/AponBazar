@@ -94,7 +94,7 @@ if (!isset($_SESSION['user_id'])) {
         </table>
 
         <div class="cart-under">
-            <a href="shop.html" class="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+            <a href="shop.php" class="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
 
             <div class="cart-summary">
             <h3>Cart Summary</h3>

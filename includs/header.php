@@ -25,7 +25,7 @@ include 'db.php';
                 </form>
             </div>
             <div class="header_icon">
-                <a class="icon" href="#"><i class="fa-regular fa-heart"></i></a>
+                <a class="icon" href="wishlist.php"><i class="fa-regular fa-heart"></i></a>
                 <a class="icon" href="cart.php"><i class="fa-solid fa-cart-shopping"></i></a>
 
                 <div class="acoount icon">

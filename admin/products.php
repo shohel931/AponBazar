@@ -23,7 +23,7 @@ if(isset($_POST['add_product'])){
     }
 
     $stmt = $conn->prepare("INSERT INTO products (name, description, price, category_id, image) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdiss", $name, $desc, $price, $category_id, $image);
+    $stmt->bind_param("ssdis", $name, $desc, $price, $category_id, $image);
     if($stmt->execute()){
         $message = "✅ Product successfully added!";
     } else {

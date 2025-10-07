@@ -83,10 +83,10 @@ include 'db.php';
                 <a title="All Products" href="shop.php"><i class="fa-brands fa-product-hunt"></i></a>
             </div>
             <div class="icon_box">
-                <a title="Favorite" href="#"><i class="fa-regular fa-heart"></i></a>
+                <a title="Favorite" href="wishlist.php"><i class="fa-regular fa-heart"></i></a>
             </div>
             <div class="icon_box">
-                <a title="Account" href="#"><i class="fa-solid fa-user"></i></a>
+                <a title="Account" href="account.php"><i class="fa-solid fa-user"></i></a>
             </div>
         </div>
     </footer>
