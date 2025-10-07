@@ -8,14 +8,14 @@ if(!isset($_SESSION['admin_id'])){
 include '../db.php';
 $message = '';
 
-// নতুন প্রোডাক্ট যোগ করা
+// Handle Add Product
 if(isset($_POST['add_product'])){
     $name = $_POST['name'];
     $desc = $_POST['description'];
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
 
-    // ছবি আপলোড
+    //  Handle Image Upload
     $image = '';
     if(isset($_FILES['image']) && $_FILES['image']['name'] != ''){
         $image = time().'_'.$_FILES['image']['name'];
@@ -31,7 +31,7 @@ if(isset($_POST['add_product'])){
     }
 }
 
-// Products লিস্ট
+// Products list
 $result = $conn->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id=c.id ORDER BY p.id DESC");
 $categories = $conn->query("SELECT * FROM categories");
 ?>
