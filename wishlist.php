@@ -35,13 +35,15 @@ if(isset($_GET['remove'])){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Wishlist</title>
-<link rel="stylesheet" href="css/shop.css">
+<link rel="stylesheet" href="css/wishlist.css">
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 <body>
 
 <?php include 'includs/header.php'; ?>
+
+<br><br><br>
 
 <section class="wishlist_page">
     <h2>My Wishlist</h2>

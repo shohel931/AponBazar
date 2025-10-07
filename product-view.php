@@ -4,7 +4,38 @@ $id = intval($_GET['id']);
 $product = $conn->query("SELECT * FROM products WHERE id=$id")->fetch_assoc();
 ?>
 
-<h2><?= htmlspecialchars($product['name']) ?></h2>
-<img src="./img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
-<p>Price: ৳<?= number_format($product['price'],2) ?></p>
-<p><?= htmlspecialchars($product['description']) ?></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?= htmlspecialchars($product['name']) ?> - AponBazar</title>
+<link rel="stylesheet" href="css/product-view.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<?php include 'includs/header.php'; ?>
+
+<div class="product_view_container">
+    <div class="product_image">
+        <img src="./img/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+    </div>
+    <div class="product_details">
+        <h1><?= htmlspecialchars($product['name']) ?></h1>
+        <p class="price">৳<?= number_format($product['price'],2) ?></p>
+        <p class="description"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
+
+        <div class="actions">
+            <button class="add_to_cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            <button class="wishlist"><i class="fa-regular fa-heart"></i> Add to Wishlist</button>
+        </div>
+    </div>
+</div>
+
+<?php include 'includs/footer.php'; ?>
+<script src="js/header.js"></script>
+<script src="js/cart.js"></script>
+</body>
+</html>

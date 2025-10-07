@@ -19,7 +19,7 @@ include 'db.php';
   <div class="footer-container">
     <!-- About -->
     <div class="footer-box">
-      <img src="../img/logo.png" alt="">
+      <img src="./img/logo.png" alt="">
       <p>Your trusted online grocery store. Fresh, fast, and affordable delivery right to your door.</p>
       <div class="social-links">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
