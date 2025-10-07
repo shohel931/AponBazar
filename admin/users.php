@@ -72,6 +72,7 @@ table tr:hover {
             <li><a href="categories.php">Catagorys</a></li>
             <li><a href="orders.php">Orders</a></li>
             <li><a href="users.php" class="active">Users</a></li>
+            <li><a href="settings.php">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
