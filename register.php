@@ -10,14 +10,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $number = trim($_POST['number']);
     $pass = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
 
-    // 🔹 Step 1: Check if email already exists
-    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
+    // 🔹 Step 1: Check if email or number already exists
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ? OR number = ?");
+    $check->bind_param("si", $email, $number);
     $check->execute();
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        $message = "❌ This email is already registered. Please use another one.";
+        // 🔹 Determine which one already exists
+        $check->bind_result($id);
+        $check->fetch();
+
+        $msg_check = $conn->prepare("SELECT email, number FROM users WHERE id = ?");
+        $msg_check->bind_param("i", $id);
+        $msg_check->execute();
+        $msg_check->bind_result($existing_email, $existing_number);
+        $msg_check->fetch();
+
+        if ($existing_email === $email) {
+            $message = "❌ This email is already registered. Please use another one.";
+        } elseif ($existing_number == $number) {
+            $message = "❌ This phone number is already registered. Please use another one.";
+        } else {
+            $message = "❌ Email or phone number already registered.";
+        }
     } else {
         // 🔹 Step 2: Insert new user
         $stmt = $conn->prepare("INSERT INTO users (name, email, number, password) VALUES (?, ?, ?, ?)");
@@ -31,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
