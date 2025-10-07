@@ -47,6 +47,7 @@ $orders = $conn->query($sql);
             <li><a href="categories.php">Categories</a></li>
             <li><a href="orders.php" class="active">Orders</a></li>
             <li><a href="users.php">Users</a></li>
+            <li><a href="settings.php">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>

@@ -74,7 +74,18 @@ $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
 $conn->query($createOrdersTable);
 
 
-
+// ---------- SETTINGS TABLE ----------
+$createSettingsTable = "CREATE TABLE IF NOT EXISTS settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    site_name VARCHAR(255) NOT NULL,
+    site_tagline VARCHAR(255) NOT NULL,
+    logo VARCHAR(255) DEFAULT NULL,
+    favicon VARCHAR(255) DEFAULT NULL,
+    theme_color VARCHAR(7) DEFAULT '#007bff',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+$conn->query($createSettingsTable);
 
 
 
