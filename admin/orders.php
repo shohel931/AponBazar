@@ -79,10 +79,10 @@ $orders = $conn->query($sql);
                         <td><?= htmlspecialchars($order['user_name']) ?></td>
                         <td><?= htmlspecialchars($order['number'] ?? 'N/A') ?></td>
                         <td><?= htmlspecialchars($order['email']) ?></td>
-                        <td><?= number_format($order['total_amount'], 2) ?></td>
+                        <td><?= number_format($order['total'], 2) ?></td>
                         <td><span class="status <?= strtolower($order['payment_status']) ?>"><?= $order['payment_status'] ?></span></td>
                         <td><span class="status <?= strtolower($order['order_status']) ?>"><?= $order['order_status'] ?></span></td>
-                        <td><?= htmlspecialchars($order['shipping_address']) ?></td>
+                        <td><?= htmlspecialchars($order['address']) ?></td>
                         <td><?= date('d M Y H m', strtotime($order['created_at'])) ?></td>
                         <td>
                             <form method="POST">

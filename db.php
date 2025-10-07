@@ -61,17 +61,36 @@ $conn->query($createProductsTable);
 // ---------- ORDERS TABLE ----------
 $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
-  user_id INT(11) NOT NULL,
-  total_amount DECIMAL(10,2) NOT NULL,
-  payment_method VARCHAR(50) NOT NULL,
-  payment_status ENUM('Pending', 'Paid', 'Failed') DEFAULT 'Pending',
-  order_status ENUM('Processing', 'Shipped', 'Delivered', 'Cancelled') DEFAULT 'Processing',
-  shipping_address TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NULL DEFAULT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    user_id INT(11) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    address TEXT NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    coupon_code VARCHAR(100) DEFAULT NULL,
+    discount DECIMAL(10,2) DEFAULT 0,
+    payment_status ENUM('Pending', 'Paid', 'Failed') DEFAULT 'Pending',
+    order_status ENUM('Processing', 'Shipped', 'Delivered', 'Cancelled') DEFAULT 'Processing',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )";
 $conn->query($createOrdersTable);
+
+// ---------- ORDER ITEMS TABLE ----------
+$createOrderItemsTable = "CREATE TABLE IF NOT EXISTS order_items (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `order_id` INT(11) NOT NULL,
+  `product_id` INT(11) NOT NULL,
+  `quantity` INT(11) NOT NULL,
+  `price` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+$conn->query($createOrderItemsTable);
 
 
 // ---------- SETTINGS TABLE ----------
@@ -123,29 +142,6 @@ $conn->query($createCouponsTable);
 
 // ---------- DEMO ORDERS INSERT ----------
 
-// Check if any orders exist
-$checkOrders = $conn->query("SELECT COUNT(*) AS total FROM orders");
-$orderCount = $checkOrders->fetch_assoc()['total'];
-
-if ($orderCount == 0) {
-    // Get any existing user (for demo)
-    $user = $conn->query("SELECT id FROM users LIMIT 1")->fetch_assoc();
-    if (!$user) {
-        // If no user exists, create one
-        $conn->query("INSERT INTO users (name, email, number, password) 
-                      VALUES ('Demo User', 'demo@example.com', '01700000000', '" . password_hash('123456', PASSWORD_BCRYPT) . "')");
-        $user_id = $conn->insert_id;
-    } else {
-        $user_id = $user['id'];
-    }
-
-    // Insert demo orders
-    $conn->query("INSERT INTO orders (user_id, total_amount, payment_method, payment_status, order_status, shipping_address) VALUES
-        ($user_id, 1200.00, 'bKash', 'Paid', 'Delivered', 'Dhaka, Bangladesh'),
-        ($user_id, 850.50, 'Cash on Delivery', 'Pending', 'Processing', 'Chittagong, Bangladesh'),
-        ($user_id, 2300.75, 'Nagad', 'Failed', 'Cancelled', 'Khulna, Bangladesh')
-    ");
-}
 
 
 
