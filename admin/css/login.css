@@ -55,5 +55,12 @@ form button:hover {
 
 form p {
     font-size: 14px;
-    margin: 10px 0 15px;
+    margin: 20px 0 10px;
+}
+form p a {
+    color: #007bff;
+    text-decoration: none;
+}
+form p a:hover {
+    text-decoration: underline;
 }
