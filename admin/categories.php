@@ -8,7 +8,7 @@ if(!isset($_SESSION['admin_id'])){
 include '../db.php';
 $message = '';
 
-// নতুন category যোগ করা
+// Handle Add Category
 if(isset($_POST['add_category'])){
     $name = trim($_POST['name']);
 
@@ -19,7 +19,7 @@ if(isset($_POST['add_category'])){
     $check->store_result();
 
     if($check->num_rows > 0){
-        $message = "❌ এই category ইতিমধ্যেই আছে!";
+        $message = "❌ Category already exists!";
     } else {
         $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
         $stmt->bind_param("s", $name);
