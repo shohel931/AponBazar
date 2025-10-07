@@ -77,7 +77,7 @@ if (isset($_POST['checkout'])) {
     // === Paymently Integration Start ===
     if ($payment === 'paymently') {
 
-        $apiKey = 'YOUR_SECRET_API_KEY'; // এখানে তোমার Paymently API key বসাও
+        $apiKey = 'O6b7HOJx6hvIAqjbQNvspgp5cMs8nyQDG93VSEts'; 
         $endpoint = 'https://shohelrana.paymently.io/api/checkout-v2';
 
         $payload = [
@@ -89,8 +89,8 @@ if (isset($_POST['checkout'])) {
                 'email' => $email,
                 'phone' => $phone
             ],
-            'redirect_url' => 'https://yourdomain.com/payment-success.php?order_id=' . $order_id,
-            'cancel_url' => 'https://yourdomain.com/payment-cancel.php?order_id=' . $order_id
+            'redirect_url' => 'localhost/payment-success.php?order_id=' . $order_id,
+            'cancel_url' => 'localhost/payment-cancel.php?order_id=' . $order_id
         ];
 
         $ch = curl_init($endpoint);

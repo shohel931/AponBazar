@@ -9,7 +9,7 @@ if (!isset($_GET['order_id'])) {
 $order_id = intval($_GET['order_id']);
 
 // Paymently credentials
-$apiKey = 'YOUR_SECRET_API_KEY'; // এখানে তোমার Paymently secret key বসাও
+$apiKey = 'O6b7HOJx6hvIAqjbQNvspgp5cMs8nyQDG93VSEts'; 
 $verifyUrl = 'https://shohelrana.paymently.io/api/verify-payment?order_id=' . $order_id;
 
 // Verify payment status from Paymently API
