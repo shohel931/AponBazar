@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include __DIR__ . './includs/db.php';
+include '../db.php';
 
 
 $message = '';
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->num_rows > 0 && password_verify($password, $hashed_pass)) {
             $_SESSION['admin_id'] = $id;
-            header("Location: index.php");
+            header("Location: dashboard.php");
             exit;
         } else {
             $message = "❌ Invalid username or password.";
