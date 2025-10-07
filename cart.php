@@ -111,12 +111,22 @@ $total = 0;
 <a href="shop.php" class="continue-shopping"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
 
 <div class="cart-summary">
-<h3>Cart Summary</h3>
-<p>Subtotal: <span id="subtotal">৳<?= number_format($total,2) ?></span></p>
-<p>Shipping: <span>৳150</span></p>
-<h4>Total: <span id="grandtotal">৳<?= number_format($total+150,2) ?></span></h4>
-<a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
+    <h3>Cart Summary</h3>
+    <p>Subtotal: <span id="subtotal">৳<?= number_format($total,2) ?></span></p>
+    <p>Shipping: <span>৳150</span></p>
+    <h4>Total: <span id="grandtotal">৳<?= number_format($total+150,2) ?></span></h4>
+
+    <?php if($cart_res->num_rows > 0): ?>
+        <!-- Cart has products -->
+        <a href="checkout.php" class="checkout-btn">Proceed to Checkout</a>
+    <?php else: ?>
+        <!-- Cart empty, disable button -->
+        <button class="checkout-btn" disabled style="cursor:not-allowed; opacity:0.6;">
+            Proceed to Checkout
+        </button>
+    <?php endif; ?>
 </div>
+
 </div>
 </main>
 
