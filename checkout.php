@@ -89,8 +89,8 @@ if (isset($_POST['checkout'])) {
                 'email' => $email,
                 'phone' => $phone
             ],
-            'redirect_url' => 'localhost/payment-success.php?order_id=' . $order_id,
-            'cancel_url' => 'localhost/payment-cancel.php?order_id=' . $order_id
+            'redirect_url' => 'http://localhost/AponBazar/payment-success.php?order_id=' . $order_id,
+            'cancel_url' => 'http://localhost/AponBazar/payment-cancel.php?order_id=' . $order_id
         ];
 
         $ch = curl_init($endpoint);

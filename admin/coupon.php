@@ -3,7 +3,7 @@ include '../db.php'; // adjust path if needed
 session_start();
 
 // Redirect if not admin (assume is_admin session)
-if(!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']){
+if(!isset($_SESSION['admin_id'])){
     header("Location: login.php");
     exit;
 }
@@ -33,7 +33,7 @@ $coupons = $conn->query("SELECT * FROM coupons ORDER BY id DESC");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Coupons</title>
-<link rel="stylesheet" href="../css/dashboard.css">
+<link rel="stylesheet" href="css/dashboard.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <style>
 body {font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:0;}
