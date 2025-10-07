@@ -31,36 +31,6 @@ $orders = $conn->query($sql);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Orders</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
-<style>
-/* Order Page Styling */
-.main-content h1 { margin-bottom:20px; }
-table { width:100%; border-collapse:collapse; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.1); border-radius:10px; overflow:hidden; }
-table th, table td { padding:12px; border-bottom:1px solid #eee; text-align:left; }
-table th { background:#f7f7f7; color:#333; font-weight:600; }
-tr:hover { background:#f9f9f9; }
-form select, form button {
-    padding:5px 8px;
-    border-radius:4px;
-    border:1px solid #ccc;
-    font-size:14px;
-}
-form button {
-    background:#007bff;
-    color:#fff;
-    border:none;
-    cursor:pointer;
-}
-form button:hover {
-    background:#0069d9;
-}
-.status {
-    font-weight:bold;
-    text-transform:capitalize;
-}
-.status.pending { color:#ff9800; }
-.status.completed { color:#28a745; }
-.status.cancelled { color:#dc3545; }
-</style>
 </head>
 <body>
 
