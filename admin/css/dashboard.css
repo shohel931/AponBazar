@@ -105,6 +105,7 @@ form {
     border-radius:10px; 
     box-shadow:0 2px 8px rgba(0,0,0,0.1); 
     margin-bottom:20px; 
+    max-width: 500px;
 }
 form input, 
 form select, 
@@ -124,12 +125,34 @@ form button {
     cursor:pointer; 
     transition:0.3s;
 }
-form button:hover { background:#218838; }
-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; }
-table th, table td { padding:12px; border-bottom:1px solid #ddd; text-align:left; }
-table th { background:#f4f4f4; }
-table img { width:50px; border-radius:5px; }
-.message { color: green; margin:10px 0; font-weight:bold; }
+form button:hover { 
+    background:#218838; 
+}
+table { 
+    width:100%; 
+    border-collapse:collapse; 
+    background:#fff; 
+    border-radius:10px; 
+    overflow:hidden; 
+}
+table th, 
+table td { 
+    padding:12px; 
+    border-bottom:1px solid #ddd; 
+    text-align:left; 
+}
+table th { 
+    background:#f4f4f4; 
+}
+table img { 
+    width:50px; 
+    border-radius:5px; 
+}
+.message { 
+    color: green; 
+    margin:10px 0; 
+    font-weight:bold; 
+}
 
 
 

@@ -43,19 +43,6 @@ $categories = $conn->query("SELECT * FROM categories");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Products</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
-<style>
-/* Products Page Styling */
-.main-content h1 { margin-bottom: 20px; }
-form { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:20px; }
-form input, form select, form textarea, form button { width:100%; margin:10px 0; padding:10px; border-radius:5px; border:1px solid #ddd; font-size:16px; }
-form button { background:#28a745; color:#fff; border:none; cursor:pointer; }
-form button:hover { background:#218838; }
-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; }
-table th, table td { padding:12px; border-bottom:1px solid #ddd; text-align:left; }
-table th { background:#f4f4f4; }
-table img { width:50px; border-radius:5px; }
-.message { color: green; margin:10px 0; font-weight:bold; }
-</style>
 </head>
 <body>
 <div class="admin-container">
