@@ -87,6 +87,7 @@ table tr:hover {
                         <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th> <!-- ✅ New Column -->
                         <th>Role</th>
                         <th>Date Joined</th>
                         <th>Action</th>
@@ -102,6 +103,7 @@ table tr:hover {
                         <td><?= $i++ ?></td>
                         <td><?= htmlspecialchars($row['name']) ?></td>
                         <td><?= htmlspecialchars($row['email']) ?></td>
+                        <td><?= htmlspecialchars($row['number'] ?? 'N/A') ?></td> <!-- ✅ Show Phone -->
                         <td><?= isset($row['role']) ? $row['role'] : 'Customer' ?></td>
                         <td><?= date('d M Y', strtotime($row['created_at'])) ?></td>
                         <td>

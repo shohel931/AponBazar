@@ -9,30 +9,27 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-
-// sql to create users table if it doesn't exist
+// ---------- USERS TABLE ----------
 $createUsersTable = "CREATE TABLE IF NOT EXISTS users (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    number BIGINT(15) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    number VARCHAR(20) DEFAULT NULL,
     password VARCHAR(255) NOT NULL,
+    role ENUM('Customer', 'Admin') DEFAULT 'Customer',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)";
-if ($conn->query($createUsersTable) === FALSE) {
-    echo "Error creating users table: " . $conn->error;
-}
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+$conn->query($createUsersTable);
 
-// sql to create admins table if it doesn't exist
+// ---------- ADMINS TABLE ----------
 $createAdminsTable = "CREATE TABLE IF NOT EXISTS admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
-if ($conn->query($createAdminsTable) === FALSE) {
-    echo "Error creating admins table: " . $conn->error;
-}
+$conn->query($createAdminsTable);
+
 // Insert default admin if not exists
 $checkAdmin = $conn->query("SELECT * FROM admins WHERE username='admin'");
 if ($checkAdmin->num_rows == 0) {
@@ -40,10 +37,17 @@ if ($checkAdmin->num_rows == 0) {
     $conn->query("INSERT INTO admins (username, password) VALUES ('admin', '$defaultPassword')");
 }
 
+// ---------- CATEGORIES TABLE ----------
+$createCategoriesTable = "CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($createCategoriesTable);
 
-// sql to create products table if it doesn't exist
+// ---------- PRODUCTS TABLE ----------
 $createProductsTable = "CREATE TABLE IF NOT EXISTS products (
-   id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
@@ -52,20 +56,9 @@ $createProductsTable = "CREATE TABLE IF NOT EXISTS products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 )";
-if ($conn->query($createProductsTable) === FALSE) {
-    echo "Error creating products table: " . $conn->error;
-}
+$conn->query($createProductsTable);
 
-// sql to create categories table if it doesn't exist
-$createCategoriesTable = "CREATE TABLE IF NOT EXISTS categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)";
-if ($conn->query($createCategoriesTable) === FALSE) {
-    echo "Error creating categories table: " . $conn->error;
-}
-// sql to create orders table if it doesn't exist
+// ---------- ORDERS TABLE ----------
 $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -77,9 +70,6 @@ $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 )";
-if ($conn->query($createOrdersTable) === FALSE) {
-    echo "Error creating orders table: " . $conn->error;
-}
-
+$conn->query($createOrdersTable);
 
 ?>
