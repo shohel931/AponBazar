@@ -1,8 +1,7 @@
-<?php 
-session_start();
+<?php
 include 'db.php';
+session_start();
 
-// ইউজার লগইন চেক
 if(!isset($_SESSION['user_id'])){
     header("Location: login.php");
     exit;
@@ -10,23 +9,37 @@ if(!isset($_SESSION['user_id'])){
 
 $user_id = $_SESSION['user_id'];
 
-// Wishlist থেকে প্রোডাক্টগুলো নেওয়া
-$sql = "SELECT w.id AS wish_id, p.* 
-        FROM wishlist w 
-        JOIN products p ON w.product_id = p.id 
-        WHERE w.user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+// Add/Remove from wishlist via POST
+if(isset($_POST['product_id'])){
+    $product_id = intval($_POST['product_id']);
 
-// Wishlist থেকে প্রোডাক্ট ডিলিট
+    // Check if already in wishlist
+    $check = $conn->query("SELECT * FROM wishlist WHERE user_id=$user_id AND product_id=$product_id");
+
+    if($check->num_rows == 0){
+        $conn->query("INSERT INTO wishlist (user_id, product_id) VALUES ($user_id, $product_id)");
+    } else {
+        $conn->query("DELETE FROM wishlist WHERE user_id=$user_id AND product_id=$product_id");
+    }
+    header("Location: wishlist.php");
+    exit;
+}
+
+// Remove from wishlist via GET
 if(isset($_GET['remove'])){
     $wish_id = intval($_GET['remove']);
     $conn->query("DELETE FROM wishlist WHERE id=$wish_id AND user_id=$user_id");
     header("Location: wishlist.php");
     exit;
 }
+
+// Fetch wishlist items
+$result = $conn->query("
+    SELECT w.id as wish_id, p.* 
+    FROM wishlist w 
+    JOIN products p ON w.product_id = p.id 
+    WHERE w.user_id=$user_id
+");
 ?>
 
 <!DOCTYPE html>
@@ -52,10 +65,10 @@ if(isset($_GET['remove'])){
             <?php while($row = $result->fetch_assoc()): ?>
                 <div class="product_card">
                     <div class="product_img">
-                        <a href="product.php?id=<?= $row['id'] ?>"><img src="img/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>"></a>
+                        <a href="product-view.php?id=<?= $row['id'] ?>"><img src="img/<?= $row['image'] ?>" alt="<?= htmlspecialchars($row['name']) ?>"></a>
                     </div>
                     <div class="pname">
-                        <a href="product.php?id=<?= $row['id'] ?>"><h3><?= htmlspecialchars($row['name']) ?></h3></a>
+                        <a href="product-view.php?id=<?= $row['id'] ?>"><h3><?= htmlspecialchars($row['name']) ?></h3></a>
                         <p>৳<?= number_format($row['price'], 2) ?></p>
                         <a href="wishlist.php?remove=<?= $row['wish_id'] ?>" class="remove_btn">Remove</a>
                     </div>

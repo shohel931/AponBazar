@@ -79,12 +79,14 @@ while($c = $cart_res->fetch_assoc()){
                     </div>
                     <p>৳<?= number_format($row['price'],2) ?></p>
                     <form method="POST" action="cart.php">
-                        <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
-                        <button type="submit">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <?= in_array($row['id'],$cart)?'Added':'Add to Cart' ?>
-                        </button>
-                    </form>
+    <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
+    <button type="submit" name="add_to_cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <?= in_array($row['id'],$cart)?'Added':'Add to Cart' ?>
+    </button>
+</form>
+
+
                 </div>
             </div>
             <?php endwhile; ?>
