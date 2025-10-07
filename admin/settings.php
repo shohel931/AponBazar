@@ -105,6 +105,7 @@ h1 { margin-bottom: 20px; color: #333; }
             <li><a href="categories.php">Categories</a></li>
             <li><a href="orders.php">Orders</a></li>
             <li><a href="users.php">Users</a></li>
+            <li><a href="coupon.php">Coupon Code</a></li>
             <li><a href="settings.php" class="active">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
