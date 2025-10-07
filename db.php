@@ -111,6 +111,16 @@ $createCartTable = "CREATE TABLE IF NOT EXISTS cart (
 $conn->query($createCartTable);
 
 
+// ---------- COUPONS TABLE ----------
+$createCouponsTable = "CREATE TABLE IF NOT EXISTS coupons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    discount_percent INT NOT NULL, -- যেমন 10 = 10%
+    active TINYINT(1) DEFAULT 1
+)";
+$conn->query($createCouponsTable);
+
+
 // ---------- DEMO ORDERS INSERT ----------
 
 // Check if any orders exist

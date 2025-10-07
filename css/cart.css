@@ -195,6 +195,21 @@ body {
   background: #27ae60;
 }
 
+.coupon_code {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+.coupon_code:hover {
+  background: #2980b9;
+}
+
 /* Order Summary */
 .order-summary {
   background: white;
