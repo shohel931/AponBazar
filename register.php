@@ -10,17 +10,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $number = trim($_POST['number']);
     $pass = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (name, email, number, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssis", $name, $email, $number, $pass);
+    // 🔹 Step 1: Check if email already exists
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $check->bind_param("s", $email);
+    $check->execute();
+    $check->store_result();
 
-
-    if ($stmt->execute()) {
-        $message = "Registration successful! You can now login.";
+    if ($check->num_rows > 0) {
+        $message = "❌ This email is already registered. Please use another one.";
     } else {
-        $message = "Error: This email may already exist.";
+        // 🔹 Step 2: Insert new user
+        $stmt = $conn->prepare("INSERT INTO users (name, email, number, password) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssis", $name, $email, $number, $pass);
+
+        if ($stmt->execute()) {
+            $message = "✅ Registration successful! You can now login.";
+        } else {
+            $message = "❌ Something went wrong. Please try again.";
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
