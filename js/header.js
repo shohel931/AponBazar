@@ -36,3 +36,33 @@ searchToggle.addEventListener("click", () => {
 searchToggle.addEventListener("click", () => {
   slider.classList.toggle("moveTop");
 });
+
+
+
+
+//  Search 
+// 🔍 Live Search AJAX
+const searchInput = document.getElementById('searchInput');
+const searchResult = document.getElementById('searchResult');
+
+if (searchInput) {
+  searchInput.addEventListener('keyup', () => {
+    const query = searchInput.value.trim();
+    if (query.length > 1) {
+      fetch(`ajax-search.php?q=${encodeURIComponent(query)}`)
+        .then(res => res.text())
+        .then(data => {
+          searchResult.innerHTML = data;
+          searchResult.style.display = 'block';
+        });
+    } else {
+      searchResult.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchResult.contains(e.target) && e.target !== searchInput) {
+      searchResult.style.display = 'none';
+    }
+  });
+}

@@ -10,12 +10,15 @@ include 'db.php';
         <div class="logo">
             <a href="index.php"><img src="img/logo.png" alt="AponBazar Logo"></a>
         </div>
-        <div class="search">
-            <form action="">
-                <input type="search" name="search" placeholder="Search your products" required>
-                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-        </div>
+        <!-- Search Box -->
+<div class="search">
+    <form action="shop.php" method="GET" autocomplete="off">
+        <input type="search" id="searchInput" name="search" placeholder="Search your products" required>
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div id="searchResult"></div>
+    </form>
+</div>
+
         <div class="header_icon">
             <a class="icon" href="wishlist.php"><i class="fa-regular fa-heart"></i></a>
             <a class="icon" href="cart.php"><i class="fa-solid fa-cart-shopping"></i></a>
@@ -53,10 +56,11 @@ include 'db.php';
 
 <!-- Search Dropdown -->
 <div id="dropdownSearch">
-    <form action="">
-        <input type="search" placeholder="Search products..." required>
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
+    <form action="shop.php" method="GET">
+    <input type="search" name="search" placeholder="Search your products" required>
+    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+</form>
+
 </div>
 
 <!-- Side Menu -->
