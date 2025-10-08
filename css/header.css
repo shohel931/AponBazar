@@ -12,7 +12,7 @@ body {
 
 
 #header {
-    background: rgb(7, 204, 7); 
+    background:linear-gradient(90deg, #43a047, #8bc34a); 
     width: 100%;
     position: fixed;
     top: 0;
