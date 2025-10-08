@@ -1,111 +1,95 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f6fa;
-  padding: 20px;
+/* Slider Page */
+form {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin-bottom: 25px;
 }
 
-.title {
-  text-align: center;
-  color: #333;
+form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
 }
 
-.msg {
-  text-align: center;
-  color: green;
-  margin-bottom: 10px;
-  font-weight: bold;
+form input[type="text"],
+form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
 }
 
-.form-container {
-  background: #fff;
-  padding: 20px;
-  width: 400px;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+form button {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+form button:hover {
+    background: #0056b3;
 }
 
-.form-container label {
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
+.table-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 15px;
 }
 
-.form-container input[type="file"],
-.form-container input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
-
-.form-container button {
-  width: 100%;
-  padding: 10px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+th, td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
 }
-
-.form-container button:hover {
-  background: #45a049;
+th {
+    background: #f4f6f8;
+    color: #333;
 }
-
-.slider-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
+img {
+    border-radius: 8px;
 }
-
-.slider-item {
-  background: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  width: 250px;
-  text-align: center;
-  position: relative;
-}
-
-.slider-item img {
-  width: 100%;
-  height: 150px;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.slider-item a {
-  display: block;
-  margin-top: 5px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.delete-btn, .edit-btn {
-  padding: 6px 10px;
-  border-radius: 5px;
-  color: white;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-
 .delete-btn {
-  background: #e74c3c;
+    background: #dc3545;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
 }
-
-.edit-btn {
-  background: #3498db;
+.delete-btn:hover {
+    background: #b52a36;
 }
-
-.delete-btn:hover { background: #c0392b; }
-.edit-btn:hover { background: #2980b9; }
+.message {
+    background: #eafaf1;
+    color: #2b7a0b;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+table thead {
+    background: #007bff;
+    color: white;
+}
+table thead th {
+    padding: 12px 15px;
+    text-align: left;
+}
+table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+table tbody tr:hover {
+    background: #f1f1f1;
+}
