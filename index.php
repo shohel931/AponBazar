@@ -18,7 +18,7 @@ session_start();
 
 <!-- Header -->
 <?php include 'includs/header.php'; ?>
-<br><br><br>
+<br><br><br><br><br><br><br>
 <!-- Hero Slider -->
 <section id="slider" class="slider-container">
   <button class="slider-btn prev"><i class="fa-solid fa-chevron-left"></i></button>

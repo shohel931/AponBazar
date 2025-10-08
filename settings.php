@@ -167,7 +167,7 @@ if (isset($_POST['delete_account'])) {
 <body>
 
 <?php include 'includs/header.php'; ?>
-<br><br><br>
+<br><br><br><br><br>
 
 <div class="settings-container">
     <h2>Account Settings</h2>

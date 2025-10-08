@@ -58,7 +58,7 @@ $total = 0;
 <body>
 <?php include 'includs/header.php'; ?>
 
-<br><br><br>
+<br><br><br><br><br>
 
 <main class="cart-page">
 <table class="cart-table">

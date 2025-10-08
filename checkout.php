@@ -134,7 +134,7 @@ if (isset($_POST['checkout'])) {
 <body>
 
 <?php include 'includs/header.php'; ?>
-<br><br><br>
+<br><br><br><br><br>
 
 <main class="checkout-page">
   <div class="checkout-container">

@@ -18,7 +18,7 @@ $product = $conn->query("SELECT * FROM products WHERE id=$id")->fetch_assoc();
 
 <?php include 'includs/header.php'; ?>
 
-<br><br><br>
+<br><br><br><br><br>
 
 <div class="product_view_container">
     <div class="product_image">

@@ -56,8 +56,7 @@ $result = $conn->query("
 
 <?php include 'includs/header.php'; ?>
 
-<br><br><br>
-
+<br><br><br><br><br>
 <section class="wishlist_page">
     <h2>My Wishlist</h2>
     <div class="wishlist_container">
