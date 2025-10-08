@@ -18,6 +18,16 @@ if(isset($_POST['update_status'])){
     $stmt->execute();
 }
 
+// ✅ Delete order
+if(isset($_POST['delete_order'])){
+    $order_id = $_POST['order_id'];
+    $stmt = $conn->prepare("DELETE FROM orders WHERE id=?");
+    $stmt->bind_param("i", $order_id);
+    $stmt->execute();
+    header("Location: orders.php"); // refresh after delete
+    exit;
+}
+
 // ✅ Fetch orders with user info
 $sql = "SELECT o.*, u.name AS user_name, u.email, u.number 
         FROM orders o 
@@ -33,6 +43,25 @@ $orders = $conn->query($sql);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Orders</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
+<style>
+/* ✅ Extra styling for delete button */
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.delete-btn:hover {
+    background: #c0392b;
+}
+form.inline {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+</style>
 </head>
 <body>
 
@@ -85,9 +114,9 @@ $orders = $conn->query($sql);
                         <td><span class="status <?= strtolower($order['payment_status']) ?>"><?= $order['payment_status'] ?></span></td>
                         <td><span class="status <?= strtolower($order['order_status']) ?>"><?= $order['order_status'] ?></span></td>
                         <td><?= htmlspecialchars($order['address']) ?></td>
-                        <td><?= date('d M Y H m', strtotime($order['created_at'])) ?></td>
+                        <td><?= date('d M Y H:i', strtotime($order['created_at'])) ?></td>
                         <td>
-                            <form method="POST">
+                            <form method="POST" class="inline">
                                 <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                                 <select name="payment_status">
                                     <option value="Pending" <?= $order['payment_status']=='Pending'?'selected':'' ?>>Pending</option>
@@ -101,6 +130,10 @@ $orders = $conn->query($sql);
                                     <option value="Cancelled" <?= $order['order_status']=='Cancelled'?'selected':'' ?>>Cancelled</option>
                                 </select>
                                 <button type="submit" name="update_status">Update</button>
+                            </form>
+                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
+                                <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
+                                <button type="submit" name="delete_order" class="delete-btn">Delete</button>
                             </form>
                         </td>
                     </tr>

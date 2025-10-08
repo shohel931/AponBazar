@@ -8,7 +8,7 @@ if(!isset($_SESSION['admin_id'])){
 include '../db.php';
 $message = '';
 
-// Handle Add Category
+// ✅ Handle Add Category
 if(isset($_POST['add_category'])){
     $name = trim($_POST['name']);
 
@@ -31,7 +31,19 @@ if(isset($_POST['add_category'])){
     }
 }
 
-// Categories list
+// ✅ Handle Delete Category
+if(isset($_GET['delete'])){
+    $id = intval($_GET['delete']);
+    $stmt = $conn->prepare("DELETE FROM categories WHERE id=?");
+    $stmt->bind_param("i", $id);
+    if($stmt->execute()){
+        $message = "🗑️ Category deleted successfully!";
+    } else {
+        $message = "❌ Failed to delete category!";
+    }
+}
+
+// ✅ Fetch all categories
 $categories = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 ?>
 
@@ -43,7 +55,41 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 <title>Admin - Categories</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
 <style>
-
+    .message {
+        background: #f0f8ff;
+        border: 1px solid #cce;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background: #f4f4f4;
+    }
+    .delete-btn {
+        color: #fff;
+        background: #e74c3c;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .delete-btn:hover {
+        background: #c0392b;
+    }
 </style>
 </head>
 <body>
@@ -84,12 +130,20 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id DESC");
                 <th>ID</th>
                 <th>Name</th>
                 <th>Created At</th>
+                <th>Action</th>
             </tr>
             <?php while($cat = $categories->fetch_assoc()): ?>
             <tr>
                 <td><?= $cat['id'] ?></td>
-                <td><?= $cat['name'] ?></td>
+                <td><?= htmlspecialchars($cat['name']) ?></td>
                 <td><?= $cat['created_at'] ?></td>
+                <td>
+                    <a href="?delete=<?= $cat['id'] ?>" 
+                       class="delete-btn"
+                       onclick="return confirm('Are you sure you want to delete this category?');">
+                       Delete
+                    </a>
+                </td>
             </tr>
             <?php endwhile; ?>
         </table>
