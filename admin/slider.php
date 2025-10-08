@@ -64,7 +64,8 @@ $sliders = $conn->query("SELECT * FROM sliders ORDER BY id DESC");
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Manage Sliders</title>
-<link rel="stylesheet" href="../css/admin-slider.css">
+<link rel="stylesheet" href="../admin/css/dashboard.css">
+<link rel="stylesheet" href="../admin/css/slider.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <style>
 .edit-form {
@@ -81,6 +82,24 @@ $sliders = $conn->query("SELECT * FROM sliders ORDER BY id DESC");
 </style>
 </head>
 <body>
+
+<div class="admin-container">
+
+<div class="sidebar">
+        <img src="../img/dasb.png" alt="">
+        <ul>
+            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="products.php">Products</a></li>
+            <li><a href="categories.php">Categories</a></li>
+            <li><a href="orders.php">Orders</a></li>
+            <li><a href="users.php">Users</a></li>
+            <li><a href="coupon.php">Coupon Code</a></li>
+            <li><a href="slider.php" class="active">Add Slider</a></li>
+            <li><a href="settings.php">Settings</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
+
 
 <h2 class="title">🖼️ Manage Sliders</h2>
 <p class="msg"><?= $message ?></p>
@@ -123,6 +142,7 @@ $sliders = $conn->query("SELECT * FROM sliders ORDER BY id DESC");
     </form>
   </div>
 <?php endwhile; ?>
+</div>
 </div>
 
 <script>

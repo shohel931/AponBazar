@@ -59,6 +59,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id DESC");
             <li><a href="orders.php">Orders</a></li>
             <li><a href="users.php">Users</a></li>
             <li><a href="coupon.php">Coupon Code</a></li>
+            <li><a href="slider.php">Add Slider</a></li>
             <li><a href="settings.php">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
