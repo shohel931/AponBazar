@@ -11,6 +11,11 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $user = $conn->query("SELECT * FROM users WHERE id=$user_id")->fetch_assoc();
 
+// Initialize session name for header update
+if (!isset($_SESSION['user_name'])) {
+    $_SESSION['user_name'] = $user['name'];
+}
+
 $message = '';
 
 // Update profile
@@ -24,6 +29,7 @@ if (isset($_POST['update_profile'])) {
         $message = "✅ Profile updated successfully!";
         $user['name'] = $name;
         $user['email'] = $email;
+        $_SESSION['user_name'] = $name; // Update header name
     } else {
         $message = "❌ Failed to update profile!";
     }
@@ -161,6 +167,7 @@ if (isset($_POST['delete_account'])) {
 <body>
 
 <?php include 'includs/header.php'; ?>
+<br><br><br>
 
 <div class="settings-container">
     <h2>Account Settings</h2>
@@ -206,8 +213,14 @@ if (isset($_POST['delete_account'])) {
     <!-- Notifications Tab -->
     <div id="notifications" class="tab-content">
         <form method="POST">
-            <label><input type="checkbox" name="email_notify" <?= $user['email_notify'] ? 'checked' : '' ?>> Email Notifications</label>
-            <label><input type="checkbox" name="sms_notify" <?= $user['sms_notify'] ? 'checked' : '' ?>> SMS Notifications</label>
+            <label>
+                <input type="checkbox" name="email_notify" <?= ($user['email_notify'] ?? 0) ? 'checked' : '' ?>>
+                Email Notifications
+            </label>
+            <label>
+                <input type="checkbox" name="sms_notify" <?= ($user['sms_notify'] ?? 0) ? 'checked' : '' ?>>
+                SMS Notifications
+            </label>
             <button type="submit" name="update_notifications">Update Notifications</button>
         </form>
     </div>
@@ -238,6 +251,7 @@ function openTab(evt, tabName) {
     evt.currentTarget.classList.add("active");
 }
 </script>
+<script src="js/header.js"></script>
 
 </body>
 </html>

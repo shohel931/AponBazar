@@ -12,13 +12,13 @@ body {
 
 
 #header {
-    background: #fff; 
+    background: rgb(7, 204, 7); 
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 10px 0;
+    padding: 5px 0;
     z-index: 999;
 }
 #header .container {
@@ -76,45 +76,48 @@ body {
 .header_icon a:hover {
     color: #444;
 }
-
-.acoount {
+.account {
     position: relative;
 }
 
-.acoount .dopdown {
+.account .dropdown {
     display: none;
     position: absolute;
-    top: 27px;
+    top: 100%; /* button এর নিচে */
     right: 0;
     background: #fff;
     border: 1px solid #ddd;
-    list-style: none;
-    padding: 10px 0;
-    width: 150px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 4px;
-    z-index: 999;
+    border-radius: 5px;
+    width: 160px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
 }
-.acoount:hover .dopdown {
+
+.account:hover .dropdown {
     display: block;
 }
-.acoount .dopdown li {
+
+.account .dropdown li {
     border-bottom: 1px solid #f1f1f1;
 }
-.acoount .dopdown li:last-child {
+
+.account .dropdown li:last-child {
     border-bottom: none;
 }
-.acoount .dopdown a {
+
+.account .dropdown a {
+    display: block;
+    padding: 10px 15px;
     color: #333;
     text-decoration: none;
-    display: block;
-    padding: 8px 15px;
-    font-size: 17px;
+    font-size: 16px;
 }
-.acoount .dopdown a:hover {
-    background: #007bff;
+
+.account .dropdown a:hover {
+    background-color: #007bff;
     color: #fff;
 }
+
 
 /* Search area */
 #dropdownSearch {
@@ -233,6 +236,54 @@ body {
 
 
 
+/* Catagory Nav */
+.catagory_nav {
+    border-top: 1px solid #383838;
+    padding: 5px 0;
+    width: 100%;
+    z-index: 9999;
+}
+.catagory_nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 5px 0;
+    margin: 0;
+}
+.catagory_nav ul li a {
+    color: #3700ff;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.catagory_nav ul li a:hover {
+    color: #ffeb3b;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #ffeb3b;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Footer */
 .footer {
     display: none;
@@ -284,6 +335,7 @@ body {
 
 .footer-box img {
   width: 200px;
+  margin-top: -20px;
   margin-bottom: 15px;
 }
 
@@ -412,5 +464,11 @@ body {
     width: 100%;
     border-radius: 5px;
     margin-top: 5px;
+  }
+  .newsletter-form button {
+    border-radius: 5px;
+  }
+  .catagory_nav {
+    display: none;
   }
 }
