@@ -30,15 +30,15 @@ $orders = $order_stmt->get_result();
 <title>My Account - AponBazar</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 <link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/footer.css">
 <link rel="stylesheet" href="css/account.css">
 </head>
 <body>
 
 <?php include 'includs/header.php'; ?>
 
-<br><br><br><br><br>
-
 <div class="account-container">
+    <!-- Profile Card -->
     <div class="profile-card">
         <img src="img/user.png" alt="User" class="profile-img">
         <h2><?= htmlspecialchars($user['name']) ?></h2>
@@ -49,6 +49,7 @@ $orders = $order_stmt->get_result();
         <a href="logout.php" class="btn logout">Logout</a>
     </div>
 
+    <!-- Orders Card -->
     <div class="orders-card">
         <h2><i class="fa-solid fa-box"></i> My Orders</h2>
         <table>
@@ -59,6 +60,7 @@ $orders = $order_stmt->get_result();
                     <th>Payment Status</th>
                     <th>Order Status</th>
                     <th>Date</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,17 +72,54 @@ $orders = $order_stmt->get_result();
                         <td><span class="status <?= strtolower($order['payment_status']) ?>"><?= $order['payment_status'] ?></span></td>
                         <td><span class="status <?= strtolower($order['order_status']) ?>"><?= $order['order_status'] ?></span></td>
                         <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
+                        <td>
+                            <button class="view-details-btn" data-id="<?= $order['id'] ?>">
+                                <i class="fa-solid fa-eye"></i> View
+                            </button>
+                        </td>
                     </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr><td colspan="5">No orders found.</td></tr>
+                    <tr><td colspan="6">No orders found.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- 🪟 Order Details Modal -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Order Details</h3>
+        <div id="orderDetails"></div>
+    </div>
+</div>
+
 <?php include 'includs/footer.php'; ?>
+
+<script src="js/header.js"></script>
+<script>
+// 🧠 Modal Script
+const modal = document.getElementById('orderModal');
+const closeBtn = document.querySelector('.close-btn');
+const orderDetailsDiv = document.getElementById('orderDetails');
+
+document.querySelectorAll('.view-details-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const orderId = btn.dataset.id;
+        fetch(`order-details.php?id=${orderId}`)
+            .then(res => res.text())
+            .then(data => {
+                orderDetailsDiv.innerHTML = data;
+                modal.style.display = 'block';
+            });
+    });
+});
+
+closeBtn.onclick = () => modal.style.display = 'none';
+window.onclick = e => { if (e.target == modal) modal.style.display = 'none'; }
+</script>
 
 </body>
 </html>
