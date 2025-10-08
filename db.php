@@ -139,8 +139,17 @@ $createCouponsTable = "CREATE TABLE IF NOT EXISTS coupons (
 )";
 $conn->query($createCouponsTable);
 
+// Sliders Table
+$createSlidersTable = "CREATE TABLE IF NOT EXISTS sliders (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+  image VARCHAR(255) NOT NULL,
+  link VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$conn->query($createSlidersTable);
 
-// ---------- DEMO ORDERS INSERT ----------
+
+
 
 
 

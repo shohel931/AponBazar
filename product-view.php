@@ -30,9 +30,23 @@ $product = $conn->query("SELECT * FROM products WHERE id=$id")->fetch_assoc();
         <p class="description"><?= nl2br(htmlspecialchars($product['description'])) ?></p>
 
         <div class="actions">
-            <button class="add_to_cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-            <button class="wishlist"><i class="fa-regular fa-heart"></i> Add to Wishlist</button>
-        </div>
+    <!-- Add to Cart -->
+    <form method="POST" action="cart.php">
+        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+        <button type="submit" name="add_to_cart" class="add_to_cart">
+            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+        </button>
+    </form>
+
+    <!-- Add to Wishlist -->
+    <form method="POST" action="wishlist.php">
+        <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+        <button type="submit" name="add_to_wishlist" class="wishlist">
+            <i class="fa-regular fa-heart"></i> Add to Wishlist
+        </button>
+    </form>
+</div>
+
     </div>
 </div>
 

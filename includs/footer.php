@@ -49,6 +49,7 @@ include 'db.php';
         <li><a href="#">Terms & Conditions</a></li>
         <li><a href="#">Return Policy</a></li>
         <li><a href="#">FAQs</a></li>
+        <li><a href="admin/dashboard.php">Admin</a></li>
       </ul>
     </div>
 
