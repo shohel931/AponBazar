@@ -7,15 +7,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $image = $_FILES['image']['name'];
     $target = "../uploads/" . basename($image);
 
+    if (!is_dir("../uploads")) {
+        mkdir("../uploads", 0777, true); // যদি uploads ফোল্ডার না থাকে, তৈরি করবে
+    }
+
     if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
         $conn->query("INSERT INTO sliders (image, link) VALUES ('$image', '$link')");
-        $message = "✅ Slider added successfully!";
+        header("Location: slider.php?success=1");
+        exit;
     } else {
-        $message = "❌ Image upload failed!";
+        header("Location: slider.php?error=1");
+        exit;
     }
 }
-
 $sliders = $conn->query("SELECT * FROM sliders ORDER BY id DESC");
+if (isset($_GET['success'])) {
+    $message = "Slider added successfully!";
+} elseif (isset($_GET['error'])) {
+    $message = "Failed to add slider. Please try again.";
+}   
 ?>
 
 <!DOCTYPE html>

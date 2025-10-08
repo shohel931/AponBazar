@@ -38,7 +38,6 @@ session_start();
   <button class="slider__btn slider__btn--next" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
   <div class="slider__dots"></div>
 </section>
-
 <?php include 'includs/footer.php'; ?>
 
 <script src="js/slider.js"></script>
