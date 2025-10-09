@@ -1,5 +1,5 @@
 <?php
-// payment_gateway/bkash.php
+// payment_gateway/nagad.php
 include 'db.php';
 session_start();
 
@@ -30,14 +30,14 @@ if ($checkCol->num_rows == 0) {
     $conn->query("ALTER TABLE `orders` ADD COLUMN `transaction_id` VARCHAR(255) NULL AFTER `discount`");
 }
 
-// 🟢 Fetch saved bKash details from settings table (admin panel)
-$bkash_q = $conn->query("SELECT * FROM payment_methods WHERE method_name = 'bkash' LIMIT 1");
-$bkash_info = $bkash_q->fetch_assoc();
-$bkash_number = $bkash_info['account_number'] ?? '017XXXXXXXX';
-$bkash_type = $bkash_info['account_type'] ?? 'Personal';
-$transaction_type = $bkash_info['transaction_type'] ?? 'Send Money'; // ✅ Added Transaction Type
+// 🟢 Fetch saved Nagad details from settings table (admin panel)
+$nagad_q = $conn->query("SELECT * FROM payment_methods WHERE method_name = 'nagad' LIMIT 1");
+$nagad_info = $nagad_q->fetch_assoc();
+$nagad_number = $nagad_info['account_number'] ?? '017XXXXXXXX';
+$nagad_type = $nagad_info['account_type'] ?? 'Personal';
+$transaction_type = $nagad_info['transaction_type'] ?? 'Send Money';
 
-// Handle form submit (user submits bKash trx id)
+// Handle form submit (user submits Nagad trx id)
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $trx_id = trim($conn->real_escape_string($_POST['trx_id'] ?? ''));
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = '<div class="error">অনুগ্রহ করে সঠিক transaction ID দিন।</div>';
     } else {
         $stmt = $conn->prepare("UPDATE orders SET payment_method = ?, payment_status = 'Pending', transaction_id = ?, updated_at = NOW() WHERE id = ?");
-        $method = 'bKash';
+        $method = 'Nagad';
         $stmt->bind_param("ssi", $method, $trx_id, $order_id);
         $ok = $stmt->execute();
         $stmt->close();
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="logo"><img src="img/nagadl.jpeg" alt=""></div>
         <div>
           <h3>Nagad Payment</h3>
-          <div class="small">অ্যাকাউন্ট টাইপ: <strong><?= htmlspecialchars($bkash_type) ?></strong></div>
+          <div class="small">অ্যাকাউন্ট টাইপ: <strong><?= htmlspecialchars($nagad_type) ?></strong></div>
         </div>
       </div>
       <div class="timer" id="countdown">15:00</div>
@@ -129,23 +129,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div style="margin-top:14px" class="label">প্রদত্ত nagad নাম্বার</div>
+      <div style="margin-top:14px" class="label">প্রদত্ত Nagad নাম্বার</div>
       <div class="form-row">
         <div class="input">
-          <div style="font-weight:700;color:#0d3b66"><?= htmlspecialchars($bkash_number) ?></div>
+          <div style="font-weight:700;color:#0d3b66"><?= htmlspecialchars($nagad_number) ?></div>
         </div>
-        <button class="copy-btn" data-copy="<?= htmlspecialchars($bkash_number) ?>"><i class="fa-regular fa-copy"></i></button>
+        <button class="copy-btn" data-copy="<?= htmlspecialchars($nagad_number) ?>"><i class="fa-regular fa-copy"></i></button>
       </div>
 
       <div style="margin-top:14px" class="label">ট্রানজেকশন আইডি</div>
-      <input type="text" id="trx_id" name="trx_id" class="tx-input" placeholder="TXN123456789..." form="bkashForm" required>
+      <input type="text" id="trx_id" name="trx_id" class="tx-input" placeholder="TXN123456789..." form="nagadForm" required>
 
-      <div style="margin-top:12px" class="label">আপনার nagad নম্বর (ঐচ্ছিক)</div>
-      <input type="text" id="paid_phone" name="paid_phone" class="tx-input" placeholder="01XXXXXXXXX" form="bkashForm">
+      <div style="margin-top:12px" class="label">আপনার Nagad নম্বর (ঐচ্ছিক)</div>
+      <input type="text" id="paid_phone" name="paid_phone" class="tx-input" placeholder="01XXXXXXXXX" form="nagadForm">
 
       <?php if (!empty($message)) echo $message; ?>
 
-      <form id="bkashForm" method="post">
+      <form id="nagadForm" method="post">
         <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
         <input type="hidden" name="trx_id" id="hidden_trx">
         <input type="hidden" name="paid_phone" id="hidden_phone">
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="card right">
     <h3>করণীয় ধাপসমূহ:</h3>
     <ul>
-      <li>১) উপরের নাম্বারে <?= htmlspecialchars($transaction_type) ?> করুন (<?= htmlspecialchars($bkash_type) ?> Account)।</li>
+      <li>১) উপরের নাম্বারে <?= htmlspecialchars($transaction_type) ?> করুন (<?= htmlspecialchars($nagad_type) ?> Account)।</li>
       <li>২) Reference এ <strong>Order #<?= $order['id'] ?></strong> দিন।</li>
       <li>৩) তারপর নিচে Transaction ID লিখে “জমা দিন” ক্লিক করুন।</li>
     </ul>
@@ -195,8 +195,3 @@ function prepareSubmit(e){
   }
   document.getElementById('hidden_trx').value = trx;
   document.getElementById('hidden_phone').value = phone;
-  document.getElementById('bkashForm').submit();
-}
-</script>
-</body>
-</html>
