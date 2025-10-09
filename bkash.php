@@ -1,63 +1,63 @@
 <?php
+// payment_gateway/bkash.php
 include 'db.php';
 session_start();
 
-if (!isset($_SESSION['checkout_data'])) {
-    header("Location: checkout.php");
+// Ensure order_id provided
+if (!isset($_GET['order_id'])) {
+    header("Location: ../checkout.php");
     exit;
 }
 
-$checkout = $_SESSION['checkout_data'];
-$user_id = $_SESSION['user_id'];
-$message = '';
-$order_id = null;
+$order_id = intval($_GET['order_id']);
 
-// Step 1: Handle payment submission
+// Fetch order
+$stmt = $conn->prepare("SELECT * FROM orders WHERE id = ?");
+$stmt->bind_param("i", $order_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$order = $result->fetch_assoc();
+$stmt->close();
+
+if (!$order) {
+    echo "Invalid order ID.";
+    exit;
+}
+
+// Auto-add transaction_id column if doesn't exist (runs silently)
+$checkCol = $conn->query("SHOW COLUMNS FROM `orders` LIKE 'transaction_id'");
+if ($checkCol->num_rows == 0) {
+    $conn->query("ALTER TABLE `orders` ADD COLUMN `transaction_id` VARCHAR(255) NULL AFTER `discount`");
+}
+
+// Handle form submit (user submits bKash trx id)
+$message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // sanitize
     $trx_id = trim($conn->real_escape_string($_POST['trx_id'] ?? ''));
     $paid_phone = trim($conn->real_escape_string($_POST['paid_phone'] ?? ''));
 
+    // simple validation
     if (empty($trx_id) || strlen($trx_id) < 3) {
         $message = '<div class="error">অনুগ্রহ করে সঠিক transaction ID দিন।</div>';
     } else {
-        // ✅ Order create with Pending status
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, name, email, phone, address, city, total, coupon_code, discount, payment_method, payment_status, transaction_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'bKash', 'Pending', ?, NOW())");
-        $stmt->bind_param("isssssssdss",
-            $user_id,
-            $checkout['name'],
-            $checkout['email'],
-            $checkout['phone'],
-            $checkout['address'],
-            $checkout['city'],
-            $checkout['total'],
-            $checkout['coupon'],
-            $checkout['discount'],
-            $trx_id
-        );
-        $stmt->execute();
-        $order_id = $conn->insert_id;
+        // Update order - set payment as paid (in real life verify with bKash API first)
+        $stmt = $conn->prepare("UPDATE orders SET payment_method = ?, payment_status = 'Pending', transaction_id = ?, updated_at = NOW() WHERE id = ?");
+        $method = 'bKash';
+        $stmt->bind_param("ssi", $method, $trx_id, $order_id);
+        $ok = $stmt->execute();
         $stmt->close();
 
-        // ✅ order_items যোগ করো
-        $cart_res = $conn->query("SELECT * FROM cart WHERE user_id=$user_id");
-        while ($item = $cart_res->fetch_assoc()) {
-            $conn->query("INSERT INTO order_items (order_id, product_id, quantity, price)
-                          VALUES ($order_id, {$item['product_id']}, {$item['quantity']}, {$item['price']})");
+        if ($ok) {
+            // Redirect to success page
+            header("Location: success.php?order_id=" . $order_id);
+            exit;
+        } else {
+            $message = '<div class="error">Payment update করা যায়নি — পরে আবার চেষ্টা করুন।</div>';
         }
-
-        // ✅ Clear cart
-        $conn->query("DELETE FROM cart WHERE user_id=$user_id");
-
-        // ✅ Clear checkout session
-        unset($_SESSION['checkout_data']);
-
-        // Redirect to success page
-        header("Location: success.php?order_id=" . $order_id);
-        exit;
     }
 }
 ?>
-
 <!doctype html>
 <html lang="bn">
 <head>

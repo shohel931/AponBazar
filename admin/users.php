@@ -69,11 +69,12 @@ table tr:hover {
         <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="products.php">Products</a></li>
-            <li><a href="categories.php">Catagorys</a></li>
+            <li><a href="categories.php">Categories</a></li>
             <li><a href="orders.php">Orders</a></li>
             <li><a href="users.php" class="active">Users</a></li>
             <li><a href="coupon.php">Coupon Code</a></li>
-            <li><a href="slider.php">Add Slider</a></li>
+            <li><a href="payment_gateways.php">Payment</a></li>
+            <li><a href="payment_method.php">Payment Methods</a></li>
             <li><a href="settings.php">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>

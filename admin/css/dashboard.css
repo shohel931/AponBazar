@@ -201,7 +201,8 @@ table td {
     text-align:left; 
 }
 table th { 
-    background:#7e05ff; 
+    background:#f4f4f4; 
+    color: #333;
 }
 .message { 
     color: green; 

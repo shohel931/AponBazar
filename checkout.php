@@ -51,32 +51,40 @@ if (isset($_POST['remove_coupon'])) {
 // Calculate totals
 $discount = $_SESSION['discount'] ?? 0;
 $grand_total = $total - $discount + 150; // 150 = shipping
+
 // Handle checkout
 if (isset($_POST['checkout'])) {
     if (count($cart_items) > 0) {
+
         $name = $conn->real_escape_string($_POST['name']);
         $email = $conn->real_escape_string($_POST['email']);
         $phone = $conn->real_escape_string($_POST['phone']);
         $address = $conn->real_escape_string($_POST['address']);
         $city = $conn->real_escape_string($_POST['city']);
 
-        $_SESSION['checkout_data'] = [
-            'name' => $name,
-            'email' => $email,
-            'phone' => $phone,
-            'address' => $address,
-            'city' => $city,
-            'total' => $grand_total,
-            'discount' => $discount,
-            'coupon' => $_SESSION['applied_coupon'] ?? ''
-        ];
+        $grand_total = $total - $discount + 150;
 
-        // ✅ শুধু redirect করবো
-        header("Location: payment.php");
+        // ✅ Insert into orders table first
+        $conn->query("INSERT INTO orders (user_id, name, email, phone, address, city, total, coupon_code, discount)
+                      VALUES ($user_id, '$name', '$email', '$phone', '$address', '$city', $grand_total, 
+                      '".($_SESSION['applied_coupon'] ?? '')."', $discount)");
+
+        $order_id = $conn->insert_id;
+
+        // ✅ Insert cart items into order_items
+        foreach ($cart_items as $item) {
+            $conn->query("INSERT INTO order_items (order_id, product_id, quantity, price)
+                          VALUES ($order_id, {$item['product_id']}, {$item['quantity']}, {$item['price']})");
+        }
+
+        // ✅ Clear the cart after order
+        $conn->query("DELETE FROM cart WHERE user_id=$user_id");
+
+        // ✅ Redirect with order_id (not total)
+        header("Location: payment.php?order_id=$order_id");
         exit;
     }
 }
-
 
 ?>
 

@@ -72,7 +72,8 @@ table th {background:#007bff; color:#fff;}
             <li><a href="orders.php">Orders</a></li>
             <li><a href="users.php">Users</a></li>
             <li><a href="coupon.php" class="active">Coupon Code</a></li>
-            <li><a href="slider.php">Add Slider</a></li>
+            <li><a href="payment_gateways.php">Payment</a></li>
+            <li><a href="payment_method.php">Payment Methods</a></li>
             <li><a href="settings.php">Settings</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
