@@ -1,19 +1,9 @@
 <?php 
 include 'db.php';
-
-// // Redirect to login if not logged in
-// if (!isset($_SESSION['user_id'])) {
-//     header("Location: login.php");
-//     exit;
-// }
-
-
-
 ?>
+
 <link rel="stylesheet" href="../css/header.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-
-
 
 <footer id="footer">
   <div class="footer-container">
@@ -70,26 +60,91 @@ include 'db.php';
 </footer>
 
 
+<!-- Bottom Icon Footer -->
+<footer class="footer">
+  <div class="fcontainer">
+    <div class="icon_box">
+      <a title="Home" href="index.php"><i class="fa-solid fa-house"></i></a>
+    </div>
+    <div class="icon_box">
+      <a title="Cart" href="cart.php"><i class="fa-solid fa-cart-shopping"></i></a>
+    </div>
+    <div class="icon_box">
+      <a title="All Products" href="shop.php"><i class="fa-brands fa-product-hunt"></i></a>
+    </div>
+    <div class="icon_box">
+      <a title="Favorite" href="wishlist.php"><i class="fa-regular fa-heart"></i></a>
+    </div>
+    <div class="icon_box account_box">
+      <a title="Account" href="javascript:void(0);" id="accountToggle"><i class="fa-solid fa-user"></i></a>
+      <ul class="sub_menu" id="accountMenu">
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <li><a href="account.php"><?= htmlspecialchars($_SESSION['user_name'] ?? 'Account'); ?></a></li>
+            <li><a href="settings.php">Settings</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        <?php else: ?>
+            <li><a href="login.php">Login</a></li>
+            <li><a href="register.php">Register</a></li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </div>
+</footer>
 
- 
-    <footer class="footer">
-        <div class="fcontainer">
-            <div class="icon_box">
-                <a title="Home" href="index.php"><i class="fa-solid fa-house"></i></a>
-            </div>
-            <div class="icon_box">
-                <a title="Cart" href="cart.php"><i class="fa-solid fa-cart-shopping"></i></a>
-            </div>
-            <div class="icon_box">
-                <a title="All Products" href="shop.php"><i class="fa-brands fa-product-hunt"></i></a>
-            </div>
-            <div class="icon_box">
-                <a title="Favorite" href="wishlist.php"><i class="fa-regular fa-heart"></i></a>
-            </div>
-            <div class="icon_box">
-                <a title="Account" href="account.php"><i class="fa-solid fa-user"></i></a>
-            </div>
-        </div>
-    </footer>
+
+<style>
+/* Sub Menu Hide/Show Style */
+.sub_menu {
+  display: none;
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  list-style: none;
+  padding: 5px 0;
+  min-width: 120px;
+  text-align: center;
+}
+.sub_menu ul {
+  margin: 0;
+  padding: 0;
+}
+
+.sub_menu li {
+  padding: 8px 10px;
+}
+.sub_menu li:hover {
+  background: none !important;
+}
+
+.sub_menu li a {
+  color: #333 !important;
+}
+
+/* Account Box Relative for positioning */
+.account_box {
+  position: relative;
+}
+</style>
+
+<script>
+// submenu toggle
+const accountBtn = document.getElementById('accountToggle');
+const accountMenu = document.getElementById('accountMenu');
+
+accountBtn.addEventListener('click', () => {
+  accountMenu.style.display = (accountMenu.style.display === 'block') ? 'none' : 'block';
+});
+
+// Click outside to close submenu
+document.addEventListener('click', (e) => {
+  if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+    accountMenu.style.display = 'none';
+  }
+});
+</script>
 
 <script src="../js/header.js"></script>
