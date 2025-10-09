@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BKash Payment - AponBazar</title>
+<title>Upay Payment - AponBazar</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -108,9 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="card left">
     <div class="brand" style="justify-content:space-between">
       <div style="display:flex;gap:12px;align-items:center">
-        <div class="logo"><img src="img/bkashl.png" alt=""></div>
+        <div class="logo"><img src="img/upayl.png" alt=""></div>
         <div>
-          <h3>BKash Payment</h3>
+          <h3>Upay Payment</h3>
           <div class="small">অ্যাকাউন্ট টাইপ: <strong><?= htmlspecialchars($bkash_type) ?></strong></div>
         </div>
       </div>
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
       </div>
 
-      <div style="margin-top:14px" class="label">প্রদত্ত bKash নাম্বার</div>
+      <div style="margin-top:14px" class="label">প্রদত্ত upay নাম্বার</div>
       <div class="form-row">
         <div class="input">
           <div style="font-weight:700;color:#0d3b66"><?= htmlspecialchars($bkash_number) ?></div>
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div style="margin-top:14px" class="label">ট্রানজেকশন আইডি</div>
       <input type="text" id="trx_id" name="trx_id" class="tx-input" placeholder="TXN123456789..." form="bkashForm" required>
 
-      <div style="margin-top:12px" class="label">আপনার bKash নম্বর (ঐচ্ছিক)</div>
+      <div style="margin-top:12px" class="label">আপনার upay নম্বর (ঐচ্ছিক)</div>
       <input type="text" id="paid_phone" name="paid_phone" class="tx-input" placeholder="01XXXXXXXXX" form="bkashForm">
 
       <?php if (!empty($message)) echo $message; ?>
