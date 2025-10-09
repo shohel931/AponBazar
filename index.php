@@ -18,8 +18,6 @@ session_start();
 
 <!-- Header -->
 <?php include 'includs/header.php'; ?>
-
-<br><br><br><br><br><br><br>
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="hero-content">

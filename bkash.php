@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = '<div class="error">অনুগ্রহ করে সঠিক transaction ID দিন।</div>';
     } else {
         $stmt = $conn->prepare("UPDATE orders SET payment_method = ?, payment_status = 'Pending', transaction_id = ?, updated_at = NOW() WHERE id = ?");
-        $method = 'bKash';
+        $method = 'BKash';
         $stmt->bind_param("ssi", $method, $trx_id, $order_id);
         $ok = $stmt->execute();
         $stmt->close();

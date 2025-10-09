@@ -78,8 +78,6 @@ while($c = $cart_res->fetch_assoc()){
 <body>
 <?php include 'includs/header.php'; ?>
 
-<br><br><br><br><br>
-
 <section class="shop_page">
     <h2>
         <?php if($search): ?>

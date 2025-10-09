@@ -36,7 +36,9 @@
   color: #555;
   margin: 6px 0;
 }
-
+.info {
+  margin-bottom: 10px !important;
+}
 .profile-card .btn {
   display: inline-block;
   margin-top: 15px;
@@ -124,6 +126,10 @@
 .status.shipped {
   background: #cce5ff;
   color: #004085;
+}
+.status.received {
+  background: #e2e3e5;
+  color: #383d41;
 }
 
 .status.delivered {

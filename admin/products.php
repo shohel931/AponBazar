@@ -112,6 +112,7 @@ if(isset($_GET['edit'])){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Products</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
+<link rel="stylesheet" href="../admin/css/products.css">
 <style>
     table img { width: 50px; height: 50px; object-fit: cover; }
     form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; }

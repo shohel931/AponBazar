@@ -54,6 +54,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id DESC");
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin - Categories</title>
 <link rel="stylesheet" href="../admin/css/dashboard.css">
+<link rel="stylesheet" href="../admin/css/category.css">
 <style>
     .message {
         background: #f0f8ff;

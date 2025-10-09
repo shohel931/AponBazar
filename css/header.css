@@ -14,7 +14,6 @@ body {
 #header {
     background:linear-gradient(90deg, #43a047, #8bc34a); 
     width: 100%;
-    position: fixed;
     top: 0;
     left: 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);

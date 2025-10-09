@@ -39,11 +39,11 @@ $orders = $order_stmt->get_result();
 <div class="account-container">
     <!-- Profile Card -->
     <div class="profile-card">
-        <img src="img/user.png" alt="User" class="profile-img">
+        <img src="img/profile.jpeg" alt="User" class="profile-img">
         <h2><?= htmlspecialchars($user['name']) ?></h2>
-        <p><i class="fa-solid fa-envelope"></i> <?= htmlspecialchars($user['email']) ?></p>
-        <p><i class="fa-solid fa-phone"></i> <?= htmlspecialchars($user['number'] ?? 'N/A') ?></p>
-        <p><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($user['address'] ?? 'No address added') ?></p>
+        <p class="info"><i class="fa-solid fa-envelope"></i> <?= htmlspecialchars($user['email']) ?></p>
+        <p class="info"><i class="fa-solid fa-phone"></i> 0<?= htmlspecialchars($user['number'] ?? 'N/A') ?></p>
+        <p class="info"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($user['address'] ?? 'No address added') ?></p>
         <a href="settings.php" class="btn">Edit Profile</a>
         <a href="logout.php" class="btn logout">Logout</a>
     </div>
@@ -107,7 +107,7 @@ const orderDetailsDiv = document.getElementById('orderDetails');
 document.querySelectorAll('.view-details-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const orderId = btn.dataset.id;
-        fetch(`order-details.php?id=${orderId}`)
+        fetch(`./order-details.php?id=${orderId}`)
             .then(res => res.text())
             .then(data => {
                 orderDetailsDiv.innerHTML = data;
