@@ -60,23 +60,26 @@ $conn->query($createProductsTable);
 
 // ---------- ORDERS TABLE ----------
 $createOrdersTable = "CREATE TABLE IF NOT EXISTS orders (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    user_id INT(11) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    address TEXT NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    payment_method VARCHAR(50) NOT NULL,
-    total DECIMAL(10,2) NOT NULL,
-    coupon_code VARCHAR(100) DEFAULT NULL,
-    discount DECIMAL(10,2) DEFAULT 0,
-    payment_status ENUM('Pending', 'Paid', 'Failed') DEFAULT 'Pending',
-    order_status ENUM('Processing', 'Shipped', 'Delivered', 'Cancelled') DEFAULT 'Processing',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NULL DEFAULT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)";
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(50) DEFAULT NULL,
+  `address` TEXT DEFAULT NULL,
+  `city` VARCHAR(100) DEFAULT NULL,
+  `payment_method` VARCHAR(100) DEFAULT NULL,
+  `total` DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+  `coupon_code` VARCHAR(100) DEFAULT NULL,
+  `discount` DECIMAL(10,2) DEFAULT 0.00,
+  `transaction_id` VARCHAR(255) DEFAULT NULL,
+  `payment_status` ENUM('Pending','Paid','Failed') DEFAULT 'Pending',
+  `order_status` ENUM('Processing','Shipped','Delivered','Cancelled') DEFAULT 'Processing',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`user_id`),
+  CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ";
 $conn->query($createOrdersTable);
 
 // ---------- ORDER ITEMS TABLE ----------
