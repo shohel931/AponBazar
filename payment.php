@@ -122,7 +122,7 @@ function redirectPayment() {
             url = 'upay.php?order_id=' + orderId;
             break;
         case 'cod':
-            url = 'success.php?order_id=' + orderId;
+            url = 'cod.php?order_id=' + orderId;
             break;
         default:
             alert('Invalid payment method!');
