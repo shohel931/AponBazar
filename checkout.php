@@ -35,90 +35,57 @@ if (isset($_POST['apply_coupon'])) {
         $coupon = $coupon_res->fetch_assoc();
         $discount = ($total * $coupon['discount_percent']) / 100;
         $_SESSION['applied_coupon'] = $coupon_code;
+        $_SESSION['discount'] = $discount;
     } else {
-        $discount = 0;
-        $_SESSION['applied_coupon'] = null;
         $error_msg = "Invalid coupon code!";
     }
 }
 
-// Handle checkout form submit
-if (isset($_POST['checkout'])) {
-
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $address = $conn->real_escape_string($_POST['address']);
-    $city = $conn->real_escape_string($_POST['city']);
-    $payment = $conn->real_escape_string($_POST['payment']);
-
-    $grand_total = $total - $discount + 150; // 150 = shipping
-
-    // Insert into orders table
-    $conn->query("INSERT INTO orders 
-        (user_id, name, email, phone, address, city, payment_method, total, coupon_code, discount)
-        VALUES 
-        ($user_id, '$name', '$email', '$phone', '$address', '$city', '$payment', $grand_total, '".($_SESSION['applied_coupon'] ?? '')."', $discount)");
-
-    $order_id = $conn->insert_id;
-
-    // Insert order items
-    foreach ($cart_items as $item) {
-        $conn->query("INSERT INTO order_items (order_id, product_id, quantity, price) 
-                      VALUES ({$order_id}, {$item['product_id']}, {$item['quantity']}, {$item['price']})");
-    }
-
-    // Clear user's cart
-    $conn->query("DELETE FROM cart WHERE user_id=$user_id");
-
-    // Clear coupon
+// Handle coupon removal
+if (isset($_POST['remove_coupon'])) {
     unset($_SESSION['applied_coupon']);
+    unset($_SESSION['discount']);
+    $discount = 0;
+}
 
-    // === Paymently Integration Start ===
-    if ($payment === 'paymently') {
+// Calculate totals
+$discount = $_SESSION['discount'] ?? 0;
+$grand_total = $total - $discount + 150; // 150 = shipping
 
-        $apiKey = 'O6b7HOJx6hvIAqjbQNvspgp5cMs8nyQDG93VSEts'; 
-        $endpoint = 'https://shohelrana.paymently.io/api/checkout-v2';
+// Handle checkout
+if (isset($_POST['checkout'])) {
+    if (count($cart_items) > 0) {
 
-        $payload = [
-            'amount' => $grand_total,
-            'currency' => 'BDT',
-            'order_id' => $order_id,
-            'customer' => [
-                'name' => $name,
-                'email' => $email,
-                'phone' => $phone
-            ],
-            'redirect_url' => 'http://localhost/AponBazar/payment-success.php?order_id=' . $order_id,
-            'cancel_url' => 'http://localhost/AponBazar/payment-cancel.php?order_id=' . $order_id
-        ];
+        $name = $conn->real_escape_string($_POST['name']);
+        $email = $conn->real_escape_string($_POST['email']);
+        $phone = $conn->real_escape_string($_POST['phone']);
+        $address = $conn->real_escape_string($_POST['address']);
+        $city = $conn->real_escape_string($_POST['city']);
 
-        $ch = curl_init($endpoint);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $apiKey
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+        $grand_total = $total - $discount + 150;
 
-        $response = curl_exec($ch);
-        curl_close($ch);
+        // ✅ Insert into orders table first
+        $conn->query("INSERT INTO orders (user_id, name, email, phone, address, city, total, coupon_code, discount)
+                      VALUES ($user_id, '$name', '$email', '$phone', '$address', '$city', $grand_total, 
+                      '".($_SESSION['applied_coupon'] ?? '')."', $discount)");
 
-        $result = json_decode($response, true);
+        $order_id = $conn->insert_id;
 
-        if (isset($result['payment_url'])) {
-            header("Location: " . $result['payment_url']);
-            exit;
-        } else {
-            echo "<p style='color:red;'>Payment initialization failed! Please try again.</p>";
+        // ✅ Insert cart items into order_items
+        foreach ($cart_items as $item) {
+            $conn->query("INSERT INTO order_items (order_id, product_id, quantity, price)
+                          VALUES ($order_id, {$item['product_id']}, {$item['quantity']}, {$item['price']})");
         }
-    } else {
-        // For COD, bKash, Nagad etc.
+
+        // ✅ Clear the cart after order
+        $conn->query("DELETE FROM cart WHERE user_id=$user_id");
+
+        // ✅ Redirect with order_id (not total)
         header("Location: payment.php?order_id=$order_id");
         exit;
     }
-    // === Paymently Integration End ===
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -126,86 +93,162 @@ if (isset($_POST['checkout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - AponBazar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/header.css">
-    <title>Checkout - AponBazar</title>
+    <style>
+        .checkout-page {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+
+        .checkout-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .billing, .order-summary {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .billing {
+            flex: 1 1 350px;
+        }
+
+        .order-summary {
+            flex: 1 1 300px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .place-order {
+            background: #2e8b57;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .place-order:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .coupon-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .coupon-actions button {
+            background: #2e8b57;
+            color: #fff;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .coupon-actions .remove {
+            background: #ff4d4d;
+        }
+    </style>
 </head>
 <body>
 
 <?php include 'includs/header.php'; ?>
-<br><br><br><br><br>
+<br><br><br><br>
 
 <main class="checkout-page">
-  <div class="checkout-container">
+    <div class="checkout-container">
 
-    <!-- Billing Form -->
-    <section class="billing">
-      <h3>Billing Details</h3>
-      <?php if (isset($error_msg)) echo '<p style="color:red;">' . $error_msg . '</p>'; ?>
-      <form method="POST">
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" name="name" required>
-        </div>
-        <div class="form-group">
-          <label>Email *</label>
-          <input type="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label>Phone *</label>
-          <input type="text" name="phone" required>
-        </div>
-        <div class="form-group">
-          <label>Address *</label>
-          <input type="text" name="address" required>
-        </div>
-        <div class="form-group">
-          <label>City *</label>
-          <input type="text" name="city" required>
-        </div>
-        <div class="form-group">
-          <label>Payment Method *</label>
-          <select name="payment" required>
-            <option value="">-- Select Payment Method --</option>
-            <option value="bkash">bKash</option>
-            <option value="nagad">Nagad</option>
-            <option value="paymently">Paymently</option>
-            <option value="cod">Cash on Delivery</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Coupon Code</label>
-          <input type="text" name="coupon_code" value="<?= $_SESSION['applied_coupon'] ?? '' ?>">
-          <button class="coupon_code" type="submit" name="apply_coupon">Apply Coupon</button>
-        </div>
-        <button type="submit" name="checkout" class="place-order">Place Order</button>
-      </form>
-    </section>
+        <section class="billing">
+            <h3>Billing Details</h3>
+            <?php if (isset($error_msg)) echo '<p style="color:red;">' . $error_msg . '</p>'; ?>
 
-    <aside class="order-summary">
-      <h3>Your Order</h3>
-      <div class="order-items">
-        <?php foreach ($cart_items as $item): ?>
-          <div class="item">
-            <span><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?></span>
-            <span>৳<?= number_format($item['total_price'], 2) ?></span>
-          </div>
-        <?php endforeach; ?>
-      </div>
-      <hr>
-      <p>Subtotal: <span>৳<?= number_format($total, 2) ?></span></p>
-      <p>Discount: <span>৳<?= number_format($discount, 2) ?></span></p>
-      <p>Shipping: <span>৳150</span></p>
-      <h4>Total: <span>৳<?= number_format($total - $discount + 150, 2) ?></span></h4>
-    </aside>
+            <form method="POST">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="text" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Address *</label>
+                    <input type="text" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" name="city" required>
+                </div>
 
-  </div>
+                <div class="form-group coupon-actions">
+                    <input type="text" name="coupon_code" placeholder="Enter Coupon Code" value="<?= $_SESSION['applied_coupon'] ?? '' ?>">
+                    <?php if (isset($_SESSION['applied_coupon'])): ?>
+                        <button type="submit" name="remove_coupon" class="remove">Remove</button>
+                    <?php else: ?>
+                        <button type="submit" name="apply_coupon">Apply</button>
+                    <?php endif; ?>
+                </div>
+
+                <button type="submit" name="checkout" class="place-order" <?= count($cart_items) == 0 ? 'disabled' : '' ?>>
+                    <?= count($cart_items) == 0 ? 'Cart is Empty' : 'Place Order' ?>
+                </button>
+            </form>
+        </section>
+
+        <aside class="order-summary">
+            <h3>Your Order</h3>
+            <div class="order-items">
+                <?php if (count($cart_items) > 0): ?>
+                    <?php foreach ($cart_items as $item): ?>
+                        <div class="item">
+                            <span><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?></span>
+                            <span>৳<?= number_format($item['total_price'], 2) ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Your cart is empty.</p>
+                <?php endif; ?>
+            </div>
+            <hr>
+            <p>Subtotal: <span>৳<?= number_format($total, 2) ?></span></p>
+            <p>Discount: <span>৳<?= number_format($discount, 2) ?></span></p>
+            <p>Shipping: <span>৳150</span></p>
+            <h4>Total: <span>৳<?= number_format($grand_total, 2) ?></span></h4>
+        </aside>
+
+    </div>
 </main>
 
 <?php include 'includs/footer.php'; ?>
 
 <script src="js/header.js"></script>
-<script src="js/cart.js"></script>
 </body>
 </html>

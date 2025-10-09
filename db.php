@@ -148,7 +148,19 @@ $createSlidersTable = "CREATE TABLE IF NOT EXISTS sliders (
 )";
 $conn->query($createSlidersTable);
 
-
+// Payment Gateways Table
+$createPaymentGatewaysTable = "CREATE TABLE IF NOT EXISTS payment_gateways (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,            
+  type VARCHAR(50) NOT NULL,             
+  nagad_no VARCHAR(50) DEFAULT NULL,
+  rocket_no VARCHAR(50) DEFAULT NULL,
+  upay_no VARCHAR(50) DEFAULT NULL,
+  description TEXT DEFAULT NULL,
+  active TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+$conn->query($createPaymentGatewaysTable);
 
 
 
