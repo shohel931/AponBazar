@@ -166,7 +166,18 @@ $createPaymentGatewaysTable = "CREATE TABLE IF NOT EXISTS payment_gateways (
 $conn->query($createPaymentGatewaysTable);
 
 
-
+// ---------- PAYMENT METHODS TABLE ----------
+$createPaymentMethodsTable = "CREATE TABLE IF NOT EXISTS payment_methods (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    method_name VARCHAR(50) NOT NULL,
+    number VARCHAR(20) NOT NULL,
+    account_number VARCHAR(20) NOT NULL,
+    account_type ENUM('Personal','Agent') DEFAULT 'Personal',
+    transaction_type ENUM('Send Money','Cashout') DEFAULT 'Send Money',
+    status TINYINT(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+$conn->query($createPaymentMethodsTable);
 
 
 
